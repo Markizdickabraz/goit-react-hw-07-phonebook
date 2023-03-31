@@ -30,38 +30,28 @@ export default function ContactForm() {
                 } 
             }
             
-    data = { name: nameSelector, number: numberSelector, id: nanoid()}
-    
-            const formSubmitHandler = () => {
+            
+            const formSubmitHandler = (event) => {
+            data = { name: nameSelector, number: numberSelector, id: nanoid()}
+            event.preventDefault();
             const filterdContacts = items.map(contact => contact.name);
               const someName = filterdContacts.some(name => name === data.name);
                 if (someName) {
-                return alert(`${data.name}, is already in contacts`);
+                    reset();
+                    return alert(`${data.name}, is already in contacts`);
                 } 
                 dispatch(addContacts(data));
-                console.log(data)
+        console.log(data)
+        reset()
             }
             
-            // const formSubmit = (e) => {
-            //     e.preventDefault();
-            //     formSubmitHandler(data)
-            //     reset();
-            // }
-    
-      const formSubmit = event => {
-            event.preventDefault();
-          formSubmitHandler(data);
-          console.log(data)
-            reset();
-  };
-  
     const reset = () => {
         dispatch(name(''))
         dispatch(number(''))
 }
     
 return (
-  <FormStyled onSubmit={formSubmit}>
+  <FormStyled onSubmit={formSubmitHandler}>
           <LabelStyled>Name
              <InputStyled
               type="text"
