@@ -4,7 +4,10 @@ import { name } from 'redux/nameSlice';
 import { number } from "redux/numberSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { getContacts, getName, getNumber } from "redux/selectors";
-import {add} from "redux/contactSlice"
+// import { add } from "redux/contactSlice"
+import { addContacts } from "redux/operations";
+import { nanoid } from "@reduxjs/toolkit";
+
 
 export default function ContactForm() {
 
@@ -27,23 +30,30 @@ export default function ContactForm() {
                 } 
             }
             
-    data = { name: nameSelector, number: numberSelector }
+    data = { name: nameSelector, number: numberSelector, id: nanoid()}
     
-            const formSubmitHandler = (data) => {
-              const filterdContacts = items.map(contact => contact.name);
+            const formSubmitHandler = () => {
+            const filterdContacts = items.map(contact => contact.name);
               const someName = filterdContacts.some(name => name === data.name);
                 if (someName) {
                 return alert(`${data.name}, is already in contacts`);
                 } 
-                    dispatch(add(data));
+                dispatch(addContacts(data));
+                console.log(data)
             }
             
-            const formSubmit = (e) => {
-                e.preventDefault();
-                formSubmitHandler(data)
-                reset();
-                
-    }
+            // const formSubmit = (e) => {
+            //     e.preventDefault();
+            //     formSubmitHandler(data)
+            //     reset();
+            // }
+    
+      const formSubmit = event => {
+            event.preventDefault();
+          formSubmitHandler(data);
+          console.log(data)
+            reset();
+  };
   
     const reset = () => {
         dispatch(name(''))
