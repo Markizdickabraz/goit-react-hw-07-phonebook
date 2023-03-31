@@ -23,14 +23,14 @@ export default function ContactList() {
         
         return (
             <>
+                    <ConstactListStyled
+                    >
                 {filtredComponents.map(item =>
                 (
-                    <ConstactListStyled key={item.name}
-                        >
                          <ListItemStyled key={item.name} > <span> {item.name} : {item.number}</span> <button type="button" onClick = {()=>{deleteClick(item.id)}}>Delete</button></ListItemStyled>
-                        </ConstactListStyled>
-                )
-                    )}
+                         )
+                         )}
+                         </ConstactListStyled>
             </>
         )
     }
