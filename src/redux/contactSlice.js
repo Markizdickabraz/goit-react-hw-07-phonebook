@@ -40,9 +40,10 @@ const handleRejected = (state, action) => {
         [deleteContatcs.fulfilled](state, action) {
         state.isLoading = false;
         state.error = null;
-         state.items.filter(item => item.id !== action.payload)
-    //  const index = state.items.findIndex(item => item.name === action.payload);
-    //   state.items.splice(index, 1);
+        // state.items.filter(item => item.id !== action.payload.id)
+          // console.log(action.payload)
+        const index = state.items.findIndex(item => item.id === action.payload.id);
+          state.items.splice(index, 1);
     },
 }
         })

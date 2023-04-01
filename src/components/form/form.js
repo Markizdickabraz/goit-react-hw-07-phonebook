@@ -1,38 +1,36 @@
-// import { useState } from "react";
 import { FormBtn, FormStyled, InputStyled, LabelStyled } from "./FormStyled";
-import { name } from 'redux/nameSlice';
-import { number } from "redux/numberSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { getContacts, getName, getNumber } from "redux/selectors";
-// import { add } from "redux/contactSlice"
+import { getContacts} from "redux/selectors";
 import { addContacts } from "redux/operations";
 import { nanoid } from "@reduxjs/toolkit";
+import { useState } from "react";
 
 
 export default function ContactForm() {
 
+    let data = [];
+
     const dispatch = useDispatch();
-    const nameSelector = useSelector(getName);
-    const numberSelector = useSelector(getNumber);
     const items = useSelector(getContacts);
 
-    let data = []
-    
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
+
     const handleChacge = e => {
-        switch (e.currentTarget.name) {
+        const { name, value } = e.currentTarget;
+        switch (name) {
             case 'name':
-                dispatch(name(e.currentTarget.value));
+                setName(value);
                 break;
-                case 'number':
-                    dispatch(number(e.currentTarget.value));
-                    break;
-                    default: return;
-                } 
-            }
-            
+            case 'number':
+                setNumber(value);
+                break;
+            default: return;
+           } 
+    }
             
             const formSubmitHandler = (event) => {
-            data = { name: nameSelector, number: numberSelector, id: nanoid()}
+            data = { name:  {name}.name, number: {name}.number, id: nanoid()}
             event.preventDefault();
             const filterdContacts = items.map(contact => contact.name);
               const someName = filterdContacts.some(name => name === data.name);
@@ -41,13 +39,12 @@ export default function ContactForm() {
                     return alert(`${data.name}, is already in contacts`);
                 } 
                 dispatch(addContacts(data));
-        console.log(data)
-        reset()
+                 reset()
             }
             
     const reset = () => {
-        dispatch(name(''))
-        dispatch(number(''))
+        setName('');
+        setNumber('');
 }
     
 return (
@@ -56,8 +53,9 @@ return (
              <InputStyled
               type="text"
               name="name"
-              value={nameSelector}
-              onChange = {handleChacge}
+              value={name}
+                onChange={handleChacge}
+                autoComplete = 'off'
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
@@ -68,8 +66,9 @@ return (
             <InputStyled
                 type="tel"
                 name="number"
-                value={numberSelector}
-                onChange = {handleChacge}
+                value={number}
+                onChange={handleChacge}
+                autoComplete = 'off'
                 pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                 required
