@@ -21,7 +21,7 @@ export default function App() {
 
   const items = useSelector(getContacts);
   const filterItems = useSelector(getFilter);
-
+ console.log(items)
   const normalizedFilter = filterItems.toLowerCase();
   function itemsNonUndefiend () {
     if (items) {

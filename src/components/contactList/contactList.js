@@ -25,7 +25,7 @@ export default function ContactList() {
             <>
                     <ConstactListStyled
                     >
-                {filtredComponents.map(item =>
+                {items.map(item =>
                 (
                          <ListItemStyled key={item.name} > <span> {item.name} : {item.number}</span> <button type="button" onClick = {()=>{deleteClick(item.id)}}>Delete</button></ListItemStyled>
                          )
